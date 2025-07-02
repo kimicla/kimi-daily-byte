@@ -1,0 +1,137 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  publishDate: string;
+  description: string;
+  tags?: string[];
+}
+
+const { title, publishDate, description, tags } = Astro.props;
+---
+
+<Layout>
+  <article class="blog-post">
+    <div class="container">
+      <header>
+        <h1>{title}</h1>
+        <p class="publish-date">Published on {new Date(publishDate).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        })}</p>
+        {tags && tags.length > 0 && (
+          <div class="tags">
+            {tags.map(tag => <span class="tag">{tag}</span>)}
+          </div>
+        )}
+      </header>
+      <div class="content">
+        <slot />
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .publish-date {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tag {
+    background-color: #f0f0f0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    color: #555;
+  }
+  
+  .content {
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
+  
+  .content :global(h2) {
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: #444;
+  }
+  
+  .content :global(h3) {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 0.75rem;
+    color: #555;
+  }
+  
+  .content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+  
+  .content :global(pre) {
+    background-color: #f6f8fa;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  
+  .content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+  
+  .content :global(blockquote) {
+    border-left: 4px solid #ddd;
+    padding-left: 1rem;
+    font-style: italic;
+    color: #555;
+    margin: 1.5rem 0;
+  }
+  
+  .content :global(ul), .content :global(ol) {
+    margin: 1rem 0 1.5rem 2rem;
+  }
+  
+  .content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .content {
+      font-size: 1rem;
+    }
+  }
+</style>
